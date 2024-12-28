@@ -6,8 +6,8 @@ exports.getCurrentUser = async (req, res) => {
     }
   const route =await  Route.findOne({userId:req.user._id}).select('route');
 
-    const user = { ...req.user.toObject(), userId: req.user._id,route:route.route };
-    console.log(user)
+    const user = { ...req.user.toObject(), userId: req.user._id,route:route?.route };
+    console.log(user.route)
     // Convert Mongoose document to plain JavaScript object
     // const user = { ...req.user.toObject(), userId: req.user._id };
 

@@ -108,3 +108,30 @@ const Route = require("../models/Route");
               return res.status(500).json({ message: 'Server error', error });
           }
       };
+
+
+        exports.deletePortfolio = async (req, res) => {
+          const { userId } = req.query;
+
+          if (!userId) {
+            console.log('userId',userId)
+            return res.status(400).json({ message: "userId is required" });
+
+          }
+
+          try {
+            const portfolio = await PortfolioBasicInfo.findOneAndDelete({ userId });
+
+            if (!portfolio) {
+              return res.status(404).json({ message: "Portfolio not found" });
+            }
+
+            await Route.findOneAndDelete({ userId });
+
+            return res.status(200).json({ success: true, message: "Portfolio deleted successfully" });
+          } catch (error) {
+            console.error('Error deleting portfolio:', error);
+            return res.status(500).json({ message: "Server error", error });
+          }
+        };
+       
